@@ -52,8 +52,12 @@ models.LogEntry = type('LogEntry', (models.LogEntry, db.Model), {})
 
 # Import for easy access
 User = models.User
+LineUser = models.LineUser
+ChatMessage = models.ChatMessage
 BotStyle = models.BotStyle
 Config = models.Config
+Document = models.Document
+LogEntry = models.LogEntry
 
 # Create tables and initialize data
 with app.app_context():
