@@ -12,7 +12,7 @@
                 <h5 class="mb-0">機器人設定</h5>
             </div>
             <div class="card-body">
-                <form action="{{ url_for('bot_settings') }}" method="POST">
+                <form action="{{ url_for('admin.bot_settings') }}" method="POST">
                     <div class="mb-3">
                         <label for="channel_id" class="form-label">Channel ID</label>
                         <input type="text" class="form-control" id="channel_id" name="channel_id" value="{{ config.channel_id }}" required>

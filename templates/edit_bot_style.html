@@ -12,7 +12,7 @@
                 <h5 class="mb-0">編輯風格</h5>
             </div>
             <div class="card-body">
-                <form action="{{ url_for('edit_bot_style', style_id=style.id) }}" method="POST">
+                <form action="{{ url_for('admin.edit_bot_style', style_id=style.id) }}" method="POST">
                     <div class="mb-3">
                         <label for="name" class="form-label">風格名稱</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ style.name }}" required>
@@ -32,7 +32,7 @@
                     </div>
                     
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="{{ url_for('bot_styles') }}" class="btn btn-secondary me-md-2">取消</a>
+                        <a href="{{ url_for('admin.bot_styles') }}" class="btn btn-secondary me-md-2">取消</a>
                         <button type="submit" class="btn btn-primary">儲存風格</button>
                     </div>
                 </form>

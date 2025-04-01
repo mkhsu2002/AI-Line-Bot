@@ -12,7 +12,7 @@
                 <h5 class="mb-0">OpenAI 設定</h5>
             </div>
             <div class="card-body">
-                <form action="{{ url_for('llm_settings') }}" method="POST">
+                <form action="{{ url_for('admin.llm_settings') }}" method="POST">
                     <div class="mb-3">
                         <label for="api_key" class="form-label">OpenAI API Key</label>
                         <input type="password" class="form-control" id="api_key" name="api_key" value="{{ api_key }}" required>
