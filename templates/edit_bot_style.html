@@ -16,24 +16,24 @@
                     {{ form.hidden_tag() }}
                     <div class="mb-3">
                         <label for="name" class="form-label">風格名稱</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ style.name }}" required>
+                        {{ form.name(class="form-control", id="name", required=True) }}
                         <div class="form-text">為您的風格取一個獨特的名稱</div>
                     </div>
                     
                     <div class="mb-3">
                         <label for="prompt" class="form-label">系統提示詞</label>
-                        <textarea class="form-control" id="prompt" name="prompt" rows="8" required>{{ style.prompt }}</textarea>
+                        {{ form.prompt(class="form-control", id="prompt", rows="8", required=True) }}
                         <div class="form-text">定義此風格行為的系統提示詞</div>
                     </div>
                     
                     <div class="mb-3">
                         <label for="description" class="form-label">描述</label>
-                        <textarea class="form-control" id="description" name="description" rows="3">{{ style.description }}</textarea>
+                        {{ form.description(class="form-control", id="description", rows="3") }}
                         <div class="form-text">此風格的簡短描述（選填）</div>
                     </div>
                     
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="is_default" name="is_default" {% if style.is_default %}checked{% endif %}>
+                        {{ form.is_default(class="form-check-input", id="is_default") }}
                         <label class="form-check-label" for="is_default">設為預設風格</label>
                         <div class="form-text">如果勾選，這個風格將成為所有新對話的預設風格</div>
                     </div>

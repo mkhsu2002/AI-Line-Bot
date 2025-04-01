@@ -151,7 +151,7 @@ def add_bot_style():
         existing = BotStyle.query.filter_by(name=form.name.data).first()
         if existing:
             flash(f'A style with name "{form.name.data}" already exists.', 'danger')
-            return redirect(url_for('admin.bot_styles'))
+            return render_template('add_bot_style.html', form=form)
         
         # Create new style
         style = BotStyle(
@@ -170,12 +170,14 @@ def add_bot_style():
         db.session.commit()
         
         flash(f'Style "{form.name.data}" added successfully.', 'success')
+        return redirect(url_for('admin.bot_styles'))
     else:
         for field, errors in form.errors.items():
             for error in errors:
                 flash(f'{field}: {error}', 'danger')
+        # If validation fails, return to add form with current values
+        return render_template('add_bot_style.html', form=form)
     
-    return redirect(url_for('admin.bot_styles'))
 
 @admin_bp.route('/bot_styles/edit/<int:style_id>', methods=['GET', 'POST'])
 @admin_required
@@ -184,8 +186,12 @@ def edit_bot_style(style_id):
     style = BotStyle.query.get_or_404(style_id)
     form = BotStyleForm()
     
-    # GET request - render the form with style data
+    # GET request - populate form with style data
     if request.method == 'GET':
+        form.name.data = style.name
+        form.prompt.data = style.prompt
+        form.description.data = style.description
+        form.is_default.data = style.is_default
         return render_template('edit_bot_style.html', style=style, form=form)
     
     if form.validate_on_submit():
@@ -217,6 +223,8 @@ def edit_bot_style(style_id):
         for field, errors in form.errors.items():
             for error in errors:
                 flash(f'{field}: {error}', 'danger')
+        # If validation fails, return to edit form with current values
+        return render_template('edit_bot_style.html', style=style, form=form)
     
     return redirect(url_for('admin.bot_styles'))
 
