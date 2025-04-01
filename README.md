@@ -204,4 +204,4 @@ SOFTWARE.
 
 如果您喜歡這個專案，可以透過以下方式支持我的工作：
 
-[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/mkhsu2002)
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/mkhsu2002w)
