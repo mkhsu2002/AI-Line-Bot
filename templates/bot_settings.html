@@ -13,34 +13,35 @@
             </div>
             <div class="card-body">
                 <form action="{{ url_for('admin.bot_settings') }}" method="POST">
+                    {{ form.hidden_tag() }}
                     <div class="mb-3">
                         <label for="channel_id" class="form-label">Channel ID</label>
-                        <input type="text" class="form-control" id="channel_id" name="channel_id" value="{{ config.channel_id }}" required>
+                        {{ form.channel_id(class="form-control", id="channel_id", required=True) }}
                         <div class="form-text">您的 LINE Messaging API channel ID</div>
                     </div>
                     
                     <div class="mb-3">
                         <label for="channel_secret" class="form-label">Channel Secret</label>
-                        <input type="text" class="form-control" id="channel_secret" name="channel_secret" value="{{ config.channel_secret }}" required>
+                        {{ form.channel_secret(class="form-control", id="channel_secret", required=True) }}
                         <div class="form-text">您的 LINE Messaging API channel secret</div>
                     </div>
                     
                     <div class="mb-3">
                         <label for="channel_access_token" class="form-label">Channel Access Token</label>
-                        <input type="text" class="form-control" id="channel_access_token" name="channel_access_token" value="{{ config.channel_access_token }}" required>
+                        {{ form.channel_access_token(class="form-control", id="channel_access_token", required=True) }}
                         <div class="form-text">您的 LINE Messaging API channel access token</div>
                     </div>
                     
                     <div class="mb-3">
                         <label for="active_style" class="form-label">預設回應風格</label>
-                        <select class="form-select" id="active_style" name="active_style" required>
-                            {% for style in styles %}
-                            <option value="{{ style.name }}" {% if style.name == active_style %}selected{% endif %}>
-                                {{ style.name }}
-                            </option>
-                            {% endfor %}
-                        </select>
+                        {{ form.active_style(class="form-select", id="active_style", required=True) }}
                         <div class="form-text">機器人的預設回應風格</div>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        {{ form.rag_enabled(class="form-check-input", id="rag_enabled") }}
+                        <label class="form-check-label" for="rag_enabled">啟用知識庫增強生成 (RAG)</label>
+                        <div class="form-text">啟用後，機器人回應會基於知識庫中的文件內容</div>
                     </div>
                     
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
