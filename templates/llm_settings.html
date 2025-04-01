@@ -13,30 +13,31 @@
             </div>
             <div class="card-body">
                 <form action="{{ url_for('admin.llm_settings') }}" method="POST">
+                    {{ form.hidden_tag() }}
                     <div class="mb-3">
                         <label for="api_key" class="form-label">OpenAI API Key</label>
-                        <input type="password" class="form-control" id="api_key" name="api_key" value="{{ api_key }}" required>
+                        {{ form.api_key(class="form-control", id="api_key", type="password", required=True) }}
                         <div class="form-text">您的 OpenAI API key，用於存取 GPT 模型</div>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="temperature" class="form-label">溫度值: <span id="temperatureValue">{{ temperature }}</span></label>
+                        <label for="temperature" class="form-label">溫度值: <span id="temperatureValue">{{ form.temperature.data }}</span></label>
                         <div class="range-slider-wrapper">
-                            <input type="range" class="form-range" id="temperature" name="temperature" min="0" max="2" step="0.1" value="{{ temperature }}" oninput="updateTemperatureValue(this.value)">
+                            {{ form.temperature(class="form-range", id="temperature", min="0", max="2", step="0.1", oninput="updateTemperatureValue(this.value)") }}
                         </div>
                         <div class="form-text">控制隨機性：較低的值使回應更加集中和確定，較高的值使回應更具創意和變化</div>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="max_tokens" class="form-label">最大 Tokens: <span id="maxTokensValue">{{ max_tokens }}</span></label>
+                        <label for="max_tokens" class="form-label">最大 Tokens: <span id="maxTokensValue">{{ form.max_tokens.data }}</span></label>
                         <div class="range-slider-wrapper">
-                            <input type="range" class="form-range" id="max_tokens" name="max_tokens" min="100" max="4000" step="50" value="{{ max_tokens }}" oninput="updateMaxTokensValue(this.value)">
+                            {{ form.max_tokens(class="form-range", id="max_tokens", min="100", max="4000", step="50", oninput="updateMaxTokensValue(this.value)") }}
                         </div>
                         <div class="form-text">回應的最大長度 (1 token ≈ 中文約1-2個字)</div>
                     </div>
                     
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="submit" class="btn btn-primary">儲存設定</button>
+                        {{ form.submit(class="btn btn-primary") }}
                     </div>
                 </form>
             </div>
