@@ -1,38 +1,43 @@
-# FlyPig LINE 聊天機器人
+# LineBotBasic - LINE 聊天機器人框架
 
-FlyPig 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人，專為「和宸清潔庇護工場」設計，用於關懷弱勢群體和公益活動。機器人具有多種人格風格，並提供完整的管理後台，讓非技術人員也能輕鬆管理和調整機器人行為。
+LineBotBasic 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人框架，提供完整的管理後台和多風格對話能力。此框架易於客製化，適合快速開發有聊天能力的 LINE Bot，無需深入了解 AI 或 LINE API 細節。
 
 ## 🌟 主要特點
 
-- 🤖 多種人格風格設定（貼心、風趣、認真、專業）
+- 🤖 多種人格風格設定（預設、風趣、正式、專業）
 - 🧠 整合 OpenAI 的 GPT-4o 大型語言模型
 - 📊 管理後台含使用數據統計和消息歷史查詢
 - 🛠️ 可自定義機器人的回應風格和提示詞
+- 📚 支援知識庫 RAG 功能，讓機器人回答有特定領域知識的問題
 - 🔒 安全的用戶管理和訪問控制
 - 🌐 支持繁體中文界面和互動
+- 📆 具備正確回覆當前日期功能
 
 ## 🔧 技術架構
 
 - **後端**：Flask (Python)
-- **數據庫**：SQLite / PostgreSQL
+- **數據庫**：PostgreSQL
 - **AI**：OpenAI GPT-4o
+- **向量庫**：FAISS
 - **消息平台**：LINE Messaging API
 - **前端**：Bootstrap + Jinja2 模板
+- **容器化**：支持 Docker 部署
 
 ## 📋 安裝與設置
 
 ### 前置需求
 
-- Python 3.9+
+- Python 3.11+
 - OpenAI API 密鑰
 - LINE Developers 帳戶和頻道設定
+- PostgreSQL 數據庫
 
-### 安裝步驟
+### 標準安裝步驟
 
 1. 克隆此存儲庫：
    ```bash
-   git clone https://github.com/yourusername/flypig-line-bot.git
-   cd flypig-line-bot
+   git clone https://github.com/mkhsu2002/LineBotBasic.git
+   cd LineBotBasic
    ```
 
 2. 安裝依賴：
@@ -44,13 +49,49 @@ FlyPig 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人，專為「和�
    ```
    OPENAI_API_KEY=your_openai_api_key
    SESSION_SECRET=your_session_secret_key
+   DATABASE_URL=postgresql://user:password@localhost/linebotbasic
    ```
 
 4. 啟動服務：
    ```bash
-   python main.py
+   gunicorn --bind 0.0.0.0:5000 main:app
    ```
    
+5. 訪問管理後台：
+   ```
+   http://localhost:5000
+   ```
+   預設管理員帳號：admin / 密碼：admin
+
+### Docker 安裝步驟
+
+1. 克隆此存儲庫：
+   ```bash
+   git clone https://github.com/mkhsu2002/LineBotBasic.git
+   cd LineBotBasic
+   ```
+
+2. 專案已包含 Docker Compose 文件 (docker-compose.yml)，您需要修改其中的環境變數：
+   ```yaml
+   # 編輯 docker-compose.yml 檔案中的以下部分：
+   environment:
+     - DATABASE_URL=postgresql://linebot:linebot_password@db/linebot_db
+     - SESSION_SECRET=change_this_to_a_random_secret  # 修改為隨機字串
+     - OPENAI_API_KEY=your_openai_api_key             # 修改為您的 OpenAI API 密鑰
+   ```
+
+3. 專案已包含 Dockerfile，無需修改：
+   ```dockerfile
+   # Dockerfile 已配置好，使用 python:3.11-slim 作為基礎映像
+   # 並使用 gunicorn 作為生產級 WSGI 伺服器
+   # 自動創建必要的目錄如 knowledge_base 和 instance
+   ```
+
+4. 啟動服務：
+   ```bash
+   docker-compose up -d
+   ```
+
 5. 訪問管理後台：
    ```
    http://localhost:5000
@@ -154,6 +195,6 @@ SOFTWARE.
 
 ---
 
-開發者：FlyPig AI  
-版本：1.0.0  
-最後更新：2025年3月
+開發者：Ming-kai Hsu  
+版本：V1.0.0  
+最後更新：2025年4月1日

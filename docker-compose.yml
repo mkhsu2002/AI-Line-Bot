@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: linebot
+      POSTGRES_PASSWORD: linebot_password
+      POSTGRES_DB: linebot_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://linebot:linebot_password@db/linebot_db
+      - SESSION_SECRET=change_this_to_a_random_secret
+      - OPENAI_API_KEY=your_openai_api_key
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  postgres_data:

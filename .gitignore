@@ -141,3 +141,16 @@ knowledge_base/
 # Project specific
 logs/
 temp/
+
+# Docker specific
+.dockerignore
+docker-volumes/
+
+# Knowledge base vector index
+knowledge_base/faiss_index.idx
+knowledge_base/embeddings.pkl
+
+# Config and environment files (should be kept secret)
+.env.local
+.env.development
+.env.production
