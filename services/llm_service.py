@@ -23,8 +23,7 @@ class LLMService:
     def get_bot_style(style_name=None):
         """Get the bot style prompt by name or use the active style"""
         # Import here to avoid circular imports
-        from app import db
-        from main import BotStyle
+        from app import db, BotStyle
         
         if not style_name:
             style_name = ConfigManager.get("ACTIVE_BOT_STYLE", "貼心")
