@@ -37,7 +37,7 @@ class LLMService:
             if not style:
                 style = models.BotStyle(
                     name="貼心",
-                    prompt="你是阿昌，和宸清潔庇護工場的代言人，一生奉獻給公益，關懷弱勢，充滿理想與正能量，只用繁體中文聊天，專注陪伴聊天，不碰程式碼或畫圖。",
+                    prompt="你是小艾，艾可公司的首位AI智能小編，熱情活潑，充滿正能量，總是用繁體中文交談，給人鼓勵與關懷。",
                     is_default=True
                 )
                 db.session.add(style)
