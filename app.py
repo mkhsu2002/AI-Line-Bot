@@ -107,10 +107,12 @@ def load_user(user_id):
 from routes.admin import admin_bp
 from routes.webhook import webhook_bp
 from routes.auth import auth_bp
+from routes.api import api_bp
 
 app.register_blueprint(admin_bp)
 app.register_blueprint(webhook_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(api_bp)
 
 # Create knowledge_base directory if it doesn't exist
 import os
