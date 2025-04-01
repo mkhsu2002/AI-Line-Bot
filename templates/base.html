@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">FlyPig LINE 機器人</a>
+            <a class="navbar-brand" href="{{ url_for('admin.dashboard') }}">FlyPig LINE 機器人</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -18,24 +18,24 @@
                 {% if current_user.is_authenticated %}
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">儀表板</a>
+                        <a class="nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}" href="{{ url_for('admin.dashboard') }}">儀表板</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.endpoint == 'bot_settings' %}active{% endif %}" href="{{ url_for('bot_settings') }}">機器人設定</a>
+                        <a class="nav-link {% if request.endpoint == 'admin.bot_settings' %}active{% endif %}" href="{{ url_for('admin.bot_settings') }}">機器人設定</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.endpoint == 'llm_settings' %}active{% endif %}" href="{{ url_for('llm_settings') }}">LLM 設定</a>
+                        <a class="nav-link {% if request.endpoint == 'admin.llm_settings' %}active{% endif %}" href="{{ url_for('admin.llm_settings') }}">LLM 設定</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.endpoint == 'bot_styles' %}active{% endif %}" href="{{ url_for('bot_styles') }}">回應風格</a>
+                        <a class="nav-link {% if request.endpoint == 'admin.bot_styles' %}active{% endif %}" href="{{ url_for('admin.bot_styles') }}">回應風格</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.endpoint == 'message_history' %}active{% endif %}" href="{{ url_for('message_history') }}">訊息記錄</a>
+                        <a class="nav-link {% if request.endpoint == 'admin.message_history' %}active{% endif %}" href="{{ url_for('admin.message_history') }}">訊息記錄</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}">登出</a>
+                        <a class="nav-link" href="{{ url_for('auth.logout') }}">登出</a>
                     </li>
                 </ul>
                 {% endif %}

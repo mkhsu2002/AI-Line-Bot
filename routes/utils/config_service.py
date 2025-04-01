@@ -1,4 +1,7 @@
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 class ConfigManager:
     """Configuration manager for the application"""
@@ -19,15 +22,24 @@ class ConfigManager:
             ConfigManager._config_cache[key] = env_value
             return env_value
         
-        # For database operations, we import here to avoid circular imports
-        from app import db
-        import models
-        
-        # Then check the database
-        config_entry = models.Config.query.filter_by(key=key).first()
-        if config_entry and config_entry.value:
-            ConfigManager._config_cache[key] = config_entry.value
-            return config_entry.value
+        # Try to get from database, but only if within flask app context
+        try:
+            # Import Flask dependencies inside the function to avoid circular imports
+            from flask import current_app
+            from app import db
+            import models
+            
+            # Only try to query the database if we're inside an application context
+            with current_app.app_context():
+                # Then check the database
+                config_entry = models.Config.query.filter_by(key=key).first()
+                if config_entry and config_entry.value:
+                    ConfigManager._config_cache[key] = config_entry.value
+                    return config_entry.value
+        except Exception as e:
+            # Either not in app context, or another error occurred
+            logger.debug(f"Could not query database for config {key}: {str(e)}")
+            # Fall back to default
         
         # Return the default value if nothing found
         return default
@@ -38,37 +50,54 @@ class ConfigManager:
         # Update cache
         ConfigManager._config_cache[key] = value
         
-        # For database operations, we import here to avoid circular imports
-        from app import db
-        import models
-        
-        # Update database
-        config_entry = models.Config.query.filter_by(key=key).first()
-        if config_entry:
-            config_entry.value = value
-        else:
-            new_config = models.Config(key=key, value=value)
-            db.session.add(new_config)
-        
-        db.session.commit()
+        try:
+            # Import Flask dependencies inside the function to avoid circular imports
+            from flask import current_app
+            from app import db
+            import models
+            
+            # Only try to update the database if we're inside an application context
+            with current_app.app_context():
+                # Update database
+                config_entry = models.Config.query.filter_by(key=key).first()
+                if config_entry:
+                    config_entry.value = value
+                else:
+                    new_config = models.Config(key=key, value=value)
+                    db.session.add(new_config)
+                
+                db.session.commit()
+        except Exception as e:
+            # Either not in app context, or another error occurred
+            logger.debug(f"Could not update database for config {key}: {str(e)}")
+            # Cache is still updated
     
     @staticmethod
     def get_all():
         """Get all configuration entries from the database"""
-        # For database operations, we import here to avoid circular imports
-        import models
-        
-        configs = models.Config.query.all()
         result = {}
         
-        for config in configs:
-            # Check if there's an environment variable that overrides the database value
-            env_value = os.environ.get(config.key)
-            if env_value is not None:
-                result[config.key] = env_value
-            else:
-                result[config.key] = config.value
+        try:
+            # Import Flask dependencies inside the function to avoid circular imports
+            from flask import current_app
+            import models
+            
+            # Only try to query the database if we're inside an application context
+            with current_app.app_context():
+                configs = models.Config.query.all()
                 
+                for config in configs:
+                    # Check if there's an environment variable that overrides the database value
+                    env_value = os.environ.get(config.key)
+                    if env_value is not None:
+                        result[config.key] = env_value
+                    else:
+                        result[config.key] = config.value
+        except Exception as e:
+            # Either not in app context, or another error occurred
+            logger.debug(f"Could not query database for all configs: {str(e)}")
+            # Return empty result
+            
         return result
     
     @staticmethod

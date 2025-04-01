@@ -3,7 +3,8 @@ import logging
 import numpy as np
 import faiss
 import pickle
-from models import Document, db
+from models import Document
+from app import db
 from config import is_rag_enabled
 from llm_service import LLMService
 

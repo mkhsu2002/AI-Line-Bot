@@ -1,6 +1,7 @@
 import json
 import logging
-from flask import Blueprint, request, abort
+import os
+from flask import Blueprint, request, abort, current_app
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
@@ -8,23 +9,43 @@ from linebot.models import (
 )
 from app import db
 from models import ChatMessage, LineUser
-from config import get_line_config
+from routes.utils.config_service import ConfigManager
 from llm_service import LLMService
 from rag_service import RAGService
 
 webhook_bp = Blueprint('webhook', __name__)
 logger = logging.getLogger(__name__)
 
-# Initialize the LINE Bot API and handler
+# Use default values for initialization at module level
+# These will be replaced with actual values during request processing
+DEFAULT_ACCESS_TOKEN = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN', "dummy_token")
+DEFAULT_CHANNEL_SECRET = os.environ.get('LINE_CHANNEL_SECRET', "dummy_secret")
+
+# Initialize a global handler that will be replaced during request processing
+_line_bot_api = LineBotApi(DEFAULT_ACCESS_TOKEN)
+_webhook_handler = WebhookHandler(DEFAULT_CHANNEL_SECRET)
+
 def get_line_bot_api():
     """Get a LINE Bot API instance with current config"""
-    config = get_line_config()
-    return LineBotApi(config['channel_access_token'])
+    # First check for an environment variable
+    token = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN')
+    
+    # If not found in environment, try the database
+    if not token:
+        token = ConfigManager.get("LINE_CHANNEL_ACCESS_TOKEN", DEFAULT_ACCESS_TOKEN)
+    
+    return LineBotApi(token)
 
 def get_line_webhook_handler():
     """Get a LINE Webhook handler with current config"""
-    config = get_line_config()
-    return WebhookHandler(config['channel_secret'])
+    # First check for an environment variable
+    secret = os.environ.get('LINE_CHANNEL_SECRET')
+    
+    # If not found in environment, try the database
+    if not secret:
+        secret = ConfigManager.get("LINE_CHANNEL_SECRET", DEFAULT_CHANNEL_SECRET)
+    
+    return WebhookHandler(secret)
 
 # LINE Bot webhook route
 @webhook_bp.route('/webhook', methods=['POST'])
@@ -39,10 +60,15 @@ def line_webhook():
     # Log the request
     logger.info("Request body: %s", body)
     
-    # Initialize the webhook handler
+    # Initialize the webhook handler with current config
     handler = get_line_webhook_handler()
     
     try:
+        # Define the message handler here, inside the request context
+        @handler.add(MessageEvent, message=TextMessage)
+        def handle_message(event):
+            handle_text_message(event)
+            
         # Handle the webhook
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -51,8 +77,7 @@ def line_webhook():
     
     return 'OK'
 
-# Define the event handler for text messages
-@get_line_webhook_handler().add(MessageEvent, message=TextMessage)
+# Define the actual message handling function (not decorated directly)
 def handle_text_message(event):
     """Handle text messages from LINE users"""
     # Get message content
