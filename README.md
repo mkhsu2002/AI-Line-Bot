@@ -1,10 +1,10 @@
-# LineBotBasic - LINE 聊天機器人框架
+# AI-Line-Bot - 智能 LINE 聊天機器人平台
 
-LineBotBasic 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人框架，提供完整的管理後台和多風格對話能力。此框架易於客製化，適合快速開發有聊天能力的 LINE Bot，無需深入了解 AI 或 LINE API 細節。
+AI-Line-Bot 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人平台，提供完整的管理後台和多風格對話能力。此平台易於客製化，適合快速開發有聊天能力的 LINE Bot，無需深入了解 AI 或 LINE API 細節。
 
 ## 🌟 主要特點
 
-- 🤖 多種人格風格設定（預設、風趣、正式、專業）
+- 🤖 多種人格風格設定（貼心、風趣、認真、專業、使命）
 - 🧠 整合 OpenAI 的 GPT-4o 大型語言模型
 - 📊 管理後台含使用數據統計和消息歷史查詢
 - 🛠️ 可自定義機器人的回應風格和提示詞
@@ -36,8 +36,8 @@ LineBotBasic 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人框架，�
 
 1. 克隆此存儲庫：
    ```bash
-   git clone https://github.com/mkhsu2002/AI_linebot.git
-   cd AI_linebot
+   git clone https://github.com/mkhsu2002/AI-Line-Bot.git
+   cd AI-Line-Bot
    ```
 
 2. 安裝依賴：
@@ -49,7 +49,7 @@ LineBotBasic 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人框架，�
    ```
    OPENAI_API_KEY=your_openai_api_key
    SESSION_SECRET=your_session_secret_key
-   DATABASE_URL=postgresql://user:password@localhost/linebotbasic
+   DATABASE_URL=postgresql://user:password@localhost/ailinebot
    ```
 
 4. 啟動服務：
@@ -67,15 +67,15 @@ LineBotBasic 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人框架，�
 
 1. 克隆此存儲庫：
    ```bash
-   git clone https://github.com/mkhsu2002/AI_linebot.git
-   cd AI_linebot
+   git clone https://github.com/mkhsu2002/AI-Line-Bot.git
+   cd AI-Line-Bot
    ```
 
 2. 專案已包含 Docker Compose 文件 (docker-compose.yml)，您需要修改其中的環境變數：
    ```yaml
    # 編輯 docker-compose.yml 檔案中的以下部分：
    environment:
-     - DATABASE_URL=postgresql://linebot:linebot_password@db/linebot_db
+     - DATABASE_URL=postgresql://ailinebot:ailinebot_password@db/ailinebot_db
      - SESSION_SECRET=change_this_to_a_random_secret  # 修改為隨機字串
      - OPENAI_API_KEY=your_openai_api_key             # 修改為您的 OpenAI API 密鑰
    ```
@@ -104,12 +104,13 @@ LineBotBasic 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人框架，�
 
 ### 1. 機器人人格設定
 
-在管理後台的「機器人風格」頁面中，您可以修改或新增風格。預設有四種風格：
+在管理後台的「機器人風格」頁面中，您可以修改或新增風格。預設有五種風格：
 
 - **貼心**（默認）：關懷輔導型
 - **風趣**：幽默風趣型
 - **認真**：正式商務型
 - **專業**：技術專家型
+- **使命**：具有明確任務導向型
 
 每種風格都有對應的「系統提示詞」(System Prompt)，定義了機器人的行為和語調。您可以根據需要修改這些提示詞，或創建新的風格。
 
