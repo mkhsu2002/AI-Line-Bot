@@ -200,7 +200,8 @@ SOFTWARE.
 版本：V1.0.0  
 最後更新：2025年4月1日
 
-## ⭐ 付費專業版
+## ☕ 支持此專案
 
-我們還提供支援 RAG 知識庫的付費專業版本，適合需要客製化專業知識領域的企業使用。
-歡迎聯繫洽詢：service@flypig.ai
+如果您喜歡這個專案，可以透過以下方式支持我的工作：
+
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/mkhsu2002)
