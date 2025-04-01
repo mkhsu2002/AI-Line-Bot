@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="card-footer text-end">
-                <a href="{{ url_for('message_history') }}" class="btn btn-outline-primary btn-sm">查看所有訊息</a>
+                <a href="{{ url_for('admin.message_history') }}" class="btn btn-outline-primary btn-sm">查看所有訊息</a>
             </div>
         </div>
     </div>
@@ -93,25 +93,25 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <a href="{{ url_for('bot_settings') }}" class="btn btn-outline-secondary w-100 p-3">
+                        <a href="{{ url_for('admin.bot_settings') }}" class="btn btn-outline-secondary w-100 p-3">
                             <h4>LINE 機器人設定</h4>
                             <p class="mb-0">設定您的 LINE 機器人憑證和設定</p>
                         </a>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <a href="{{ url_for('llm_settings') }}" class="btn btn-outline-secondary w-100 p-3">
+                        <a href="{{ url_for('admin.llm_settings') }}" class="btn btn-outline-secondary w-100 p-3">
                             <h4>LLM 設定</h4>
                             <p class="mb-0">設定 OpenAI API 參數</p>
                         </a>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <a href="{{ url_for('bot_styles') }}" class="btn btn-outline-secondary w-100 p-3">
+                        <a href="{{ url_for('admin.bot_styles') }}" class="btn btn-outline-secondary w-100 p-3">
                             <h4>回應風格</h4>
                             <p class="mb-0">管理不同的機器人回應風格</p>
                         </a>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <a href="{{ url_for('message_history') }}" class="btn btn-outline-secondary w-100 p-3">
+                        <a href="{{ url_for('admin.message_history') }}" class="btn btn-outline-secondary w-100 p-3">
                             <h4>訊息記錄</h4>
                             <p class="mb-0">查看完整訊息歷史記錄</p>
                         </a>
