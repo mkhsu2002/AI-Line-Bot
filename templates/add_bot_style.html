@@ -13,6 +13,7 @@
             </div>
             <div class="card-body">
                 <form action="{{ url_for('admin.add_bot_style') }}" method="POST">
+                    {{ form.hidden_tag() }}
                     <div class="mb-3">
                         <label for="name" class="form-label">風格名稱</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -23,6 +24,12 @@
                         <label for="prompt" class="form-label">系統提示詞</label>
                         <textarea class="form-control" id="prompt" name="prompt" rows="8" required></textarea>
                         <div class="form-text">定義此風格行為的系統提示詞</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">描述</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        <div class="form-text">此風格的簡短描述（選填）</div>
                     </div>
                     
                     <div class="mb-3 form-check">
@@ -66,28 +73,35 @@
 <script>
 function loadTemplate(template) {
     let prompt = '';
+    let description = '';
     
     switch(template) {
         case 'conversational':
             prompt = '你是阿昌，和宸清潔庇護工場的代言人，一生奉獻給公益，關懷弱勢，充滿理想與正能量，只用繁體中文聊天，專注陪伴聊天，不碰程式碼或畫圖。';
+            description = '預設風格，溫暖親切的對話夥伴，用簡單親切的口吻陪伴用戶聊天。';
             break;
         case 'professional':
             prompt = '你是阿昌，一位非常專業的助理，使用正式、商務化的繁體中文進行溝通，提供精確的資訊和適當的建議。';
+            description = '正式的商務風格，提供專業的回答和建議，適合商務和正式場合。';
             break;
         case 'creative':
             prompt = '你是一位風趣幽默的阿昌，擅長用輕鬆詼諧的語調回答問題，回應中帶有俏皮的繁體中文表達方式，但不失專業與幫助性。';
+            description = '風趣幽默的對話風格，讓聊天充滿樂趣和輕鬆的氛圍。';
             break;
         case 'friendly':
             prompt = '你是阿昌，和宸清潔庇護工場的友善代言人，用熱情和溫暖的繁體中文回應，使用積極的語調和支持性的語言。讓用戶感到舒適，用你的回應帶給他們正能量。';
+            description = '友善溫暖的對話風格，給用戶帶來積極的能量和支持。';
             break;
         case 'technical':
             prompt = '你是阿昌，一位技術專家助理，提供詳細、專業的繁體中文回應，使用特定的技術術語和全面的解釋，讓用戶對技術問題有更深入的理解。';
+            description = '技術專家風格，提供詳細的技術解釋和專業知識支持。';
             break;
         default:
             return;
     }
     
     document.getElementById('prompt').value = prompt;
+    document.getElementById('description').value = description;
 }
 </script>
 {% endblock %}

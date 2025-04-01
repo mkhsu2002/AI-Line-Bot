@@ -136,11 +136,15 @@ def bot_styles():
     form = BotStyleForm()
     return render_template('bot_styles.html', styles=styles, form=form)
 
-@admin_bp.route('/bot_styles/add', methods=['POST'])
+@admin_bp.route('/bot_styles/add', methods=['GET', 'POST'])
 @admin_required
 def add_bot_style():
     """Add a new bot style"""
     form = BotStyleForm()
+    
+    # GET request - render the form
+    if request.method == 'GET':
+        return render_template('add_bot_style.html', form=form)
     
     if form.validate_on_submit():
         # Check if style name already exists
@@ -173,12 +177,16 @@ def add_bot_style():
     
     return redirect(url_for('admin.bot_styles'))
 
-@admin_bp.route('/bot_styles/edit/<int:style_id>', methods=['POST'])
+@admin_bp.route('/bot_styles/edit/<int:style_id>', methods=['GET', 'POST'])
 @admin_required
 def edit_bot_style(style_id):
     """Edit an existing bot style"""
     style = BotStyle.query.get_or_404(style_id)
     form = BotStyleForm()
+    
+    # GET request - render the form with style data
+    if request.method == 'GET':
+        return render_template('edit_bot_style.html', style=style, form=form)
     
     if form.validate_on_submit():
         # Check if renaming to an existing name
