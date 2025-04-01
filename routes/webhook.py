@@ -6,7 +6,8 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-from models import ChatMessage, LineUser, db
+from app import db
+from models import ChatMessage, LineUser
 from config import get_line_config
 from llm_service import LLMService
 from rag_service import RAGService

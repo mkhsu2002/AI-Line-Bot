@@ -5,13 +5,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from openai import OpenAI
-from linebot import LineBotApi, WebhookHandler
-from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot import LineBotApi
 import json
 from datetime import datetime
 from sqlalchemy.orm import DeclarativeBase
 from services.llm_service import LLMService
+# Import blueprints for route organization
+from routes.webhook import webhook_bp
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -414,37 +414,7 @@ def message_history():
     messages = ChatMessage.query.order_by(ChatMessage.timestamp.desc()).all()
     return render_template('message_history.html', messages=messages)
 
-@app.route('/webhook', methods=['POST'])
-def line_webhook():
-    """Handle LINE webhook events"""
-    # Get X-Line-Signature header value
-    signature = request.headers.get('X-Line-Signature', '')
-    
-    # Get request body as text
-    body = request.get_data(as_text=True)
-    
-    # Log the request
-    logger.info("Request body: %s", body)
-    
-    try:
-        # Initialize the webhook handler
-        handler = get_line_webhook_handler()
-        
-        # Handle the webhook
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        logger.error("Invalid signature. Check your channel secret.")
-        abort(400)
-    except Exception as e:
-        logger.error(f"Webhook error: {e}")
-        abort(500)
-    
-    return 'OK'
-
-@app.route('/webhook', methods=['GET'])
-def verify_webhook():
-    """Verify the webhook URL for LINE Platform"""
-    return 'Webhook verification OK'
+# Webhook routes are now handled by routes/webhook.py using blueprint
 
 # Initialize handler at global level
 webhook_handler = None
