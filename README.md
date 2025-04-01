@@ -36,8 +36,8 @@ LineBotBasic 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人框架，�
 
 1. 克隆此存儲庫：
    ```bash
-   git clone https://github.com/mkhsu2002/LineBotBasic.git
-   cd LineBotBasic
+   git clone https://github.com/mkhsu2002/AI_linebot.git
+   cd AI_linebot
    ```
 
 2. 安裝依賴：
@@ -67,8 +67,8 @@ LineBotBasic 是一個基於 Flask 和 OpenAI 的 LINE 聊天機器人框架，�
 
 1. 克隆此存儲庫：
    ```bash
-   git clone https://github.com/mkhsu2002/LineBotBasic.git
-   cd LineBotBasic
+   git clone https://github.com/mkhsu2002/AI_linebot.git
+   cd AI_linebot
    ```
 
 2. 專案已包含 Docker Compose 文件 (docker-compose.yml)，您需要修改其中的環境變數：
@@ -195,6 +195,11 @@ SOFTWARE.
 
 ---
 
-開發者：Ming-kai Hsu  
+開發者：FlyPig AI  
 版本：V1.0.0  
 最後更新：2025年4月1日
+
+## ⭐ 付費專業版
+
+我們還提供支援 RAG 知識庫的付費專業版本，適合需要客製化專業知識領域的企業使用。
+歡迎聯繫洽詢：service@flypig.ai

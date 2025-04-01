@@ -7,8 +7,8 @@
 ### 1. 克隆存儲庫（如果尚未完成）
 
 ```bash
-git clone https://github.com/mkhsu2002/LineBotBasic.git
-cd LineBotBasic
+git clone https://github.com/mkhsu2002/AI_linebot.git
+cd AI_linebot
 ```
 
 ### 2. 初始化 Git 儲存庫（如果是新專案）
@@ -16,7 +16,7 @@ cd LineBotBasic
 ```bash
 git init
 git add .
-git commit -m "初始提交：LineBotBasic V1.0"
+git commit -m "初始提交：AI_linebot V1.0"
 ```
 
 ### 3. 設置 GitHub 存儲庫
@@ -24,7 +24,7 @@ git commit -m "初始提交：LineBotBasic V1.0"
 在 GitHub 上創建一個新的儲存庫，然後將本地存儲庫連接到 GitHub：
 
 ```bash
-git remote add origin https://github.com/您的用戶名/LineBotBasic.git
+git remote add origin https://github.com/您的用戶名/AI_linebot.git
 ```
 
 ### 4. 推送到 GitHub 並加上標籤
@@ -34,7 +34,7 @@ git remote add origin https://github.com/您的用戶名/LineBotBasic.git
 git push -u origin main
 
 # 創建 V1.0 標籤
-git tag -a v1.0 -m "LineBotBasic 初始版本"
+git tag -a v1.0 -m "AI_linebot 初始版本"
 git push origin v1.0
 ```
 
@@ -42,7 +42,7 @@ git push origin v1.0
 
 ```bash
 git push -u origin master
-git tag -a v1.0 -m "LineBotBasic 初始版本"
+git tag -a v1.0 -m "AI_linebot 初始版本"
 git push origin v1.0
 ```
 
@@ -56,8 +56,8 @@ git push origin v1.0
 
 ```bash
 # 克隆存儲庫（如果尚未完成）
-git clone https://github.com/您的用戶名/LineBotBasic.git
-cd LineBotBasic
+git clone https://github.com/您的用戶名/AI_linebot.git
+cd AI_linebot
 
 # 編輯環境變數
 # 打開 docker-compose.yml 並更改 environment 部分的值：
@@ -79,7 +79,7 @@ docker compose logs -f
 
 ```bash
 # 構建映像
-docker build -t linebot-basic:v1.0 .
+docker build -t ai-linebot:v1.0 .
 
 # 運行容器
 docker run -d \
@@ -87,8 +87,8 @@ docker run -d \
   -e DATABASE_URL="postgresql://用戶名:密碼@主機名:端口/數據庫名" \
   -e SESSION_SECRET="隨機秘密字符串" \
   -e OPENAI_API_KEY="您的OpenAI密鑰" \
-  --name linebot-app \
-  linebot-basic:v1.0
+  --name ai-linebot-app \
+  ai-linebot:v1.0
 ```
 
 ### 3. 部署到雲平台
