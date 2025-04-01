@@ -24,6 +24,13 @@ def admin_required(f):
     decorated_function.__name__ = f.__name__
     return login_required(decorated_function)
 
+# Date test page (doesn't require admin access)
+@admin_bp.route('/date-test')
+@login_required
+def date_test():
+    """Test page for date functionality"""
+    return render_template('date_test.html')
+
 # Dashboard
 @admin_bp.route('/')
 @admin_bp.route('/dashboard')

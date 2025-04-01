@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+import datetime
 from openai import OpenAI
 from routes.utils.config_service import ConfigManager, get_openai_api_key, get_llm_settings
 
@@ -58,9 +59,32 @@ class LLMService:
         # Get OpenAI settings
         settings = get_llm_settings()
         
+        # Get current date information
+        current_date = datetime.datetime.now()
+        date_info = {
+            "year": current_date.year,
+            "month": current_date.month,
+            "day": current_date.day,
+            "weekday": current_date.strftime("%A"),
+            "hour": current_date.hour,
+            "minute": current_date.minute,
+            "second": current_date.second,
+            "iso_date": current_date.strftime("%Y-%m-%d"),
+            "full_date": current_date.strftime("%Y年%m月%d日"),
+            "full_time": current_date.strftime("%H:%M:%S"),
+            "full_datetime": current_date.strftime("%Y年%m月%d日 %H:%M:%S")
+        }
+        
+        date_prompt = f"""
+今天是 {date_info['full_date']}，星期{['一', '二', '三', '四', '五', '六', '日'][current_date.weekday()]}。
+當前時間是 {date_info['full_time']}。
+如果用戶詢問當前日期或時間，請使用以上信息回答。
+"""
+        
         # Build the messages
         messages = [
-            {"role": "system", "content": style.prompt}
+            {"role": "system", "content": style.prompt},
+            {"role": "system", "content": date_prompt}
         ]
         
         # Add RAG context if available

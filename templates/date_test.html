@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}日期測試{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>日期時間測試</h4>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">伺服器日期時間</div>
+                        <div class="card-body">
+                            <div id="server-date-info">
+                                <p class="mb-1"><strong>載入中...</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">LLM 日期測試</div>
+                        <div class="card-body">
+                            <div id="llm-date-test">
+                                <p class="mb-1"><strong>載入中...</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">自定義測試</div>
+                        <div class="card-body">
+                            <div class="input-group mb-3">
+                                <input type="text" id="custom-query" class="form-control" placeholder="輸入問題，例如：今天是星期幾？">
+                                <button class="btn btn-primary" type="button" id="send-query">送出</button>
+                            </div>
+                            <div id="custom-response" class="mt-3">
+                                <p class="text-muted">在上方輸入與日期時間相關的問題，然後點擊「送出」</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 獲取伺服器日期時間資訊
+    fetch('/api/date')
+        .then(response => response.json())
+        .then(data => {
+            const dateInfo = document.getElementById('server-date-info');
+            dateInfo.innerHTML = `
+                <p class="mb-1"><strong>完整日期時間：</strong> ${data.full_datetime}</p>
+                <p class="mb-1"><strong>日期：</strong> ${data.full_date}</p>
+                <p class="mb-1"><strong>時間：</strong> ${data.full_time}</p>
+                <p class="mb-1"><strong>星期：</strong> 星期${data.weekday_chinese}</p>
+                <p class="mb-1"><strong>年：</strong> ${data.year}</p>
+                <p class="mb-1"><strong>月：</strong> ${data.month}</p>
+                <p class="mb-1"><strong>日：</strong> ${data.day}</p>
+            `;
+        })
+        .catch(error => {
+            console.error('獲取日期資訊失敗:', error);
+            document.getElementById('server-date-info').innerHTML = `<p class="text-danger">獲取日期資訊失敗: ${error}</p>`;
+        });
+
+    // 測試 LLM 日期回應
+    fetch('/api/date-test')
+        .then(response => response.json())
+        .then(data => {
+            const llmTest = document.getElementById('llm-date-test');
+            llmTest.innerHTML = `
+                <p class="mb-1"><strong>問題：</strong> ${data.query}</p>
+                <p class="mb-1"><strong>實際日期：</strong> ${data.current_date}</p>
+                <p class="mb-2"><strong>LLM 回應：</strong></p>
+                <div class="p-3 bg-light rounded">${data.response}</div>
+            `;
+        })
+        .catch(error => {
+            console.error('測試 LLM 日期回應失敗:', error);
+            document.getElementById('llm-date-test').innerHTML = `<p class="text-danger">測試 LLM 日期回應失敗: ${error}</p>`;
+        });
+
+    // 自定義查詢
+    document.getElementById('send-query').addEventListener('click', function() {
+        const query = document.getElementById('custom-query').value.trim();
+        if (!query) {
+            return;
+        }
+
+        const responseDiv = document.getElementById('custom-response');
+        responseDiv.innerHTML = `<p class="text-info">處理中，請稍候...</p>`;
+
+        fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: query }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            responseDiv.innerHTML = `
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <strong>問題：</strong> ${query}
+                    </div>
+                    <div class="card-body">
+                        <strong>回應：</strong>
+                        <div class="p-3 bg-light rounded mt-2">${data.response}</div>
+                    </div>
+                </div>
+            `;
+        })
+        .catch(error => {
+            console.error('獲取回應失敗:', error);
+            responseDiv.innerHTML = `<p class="text-danger">獲取回應失敗: ${error}</p>`;
+        });
+    });
+
+    // 按 Enter 鍵發送
+    document.getElementById('custom-query').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('send-query').click();
+        }
+    });
+});
+</script>
+{% endblock %}
