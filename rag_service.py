@@ -6,7 +6,7 @@ import pickle
 from models import Document
 from app import db
 from config import is_rag_enabled
-from llm_service import LLMService
+from services.llm_service import LLMService
 
 logger = logging.getLogger(__name__)
 

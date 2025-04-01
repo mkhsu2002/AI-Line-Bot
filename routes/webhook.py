@@ -10,7 +10,7 @@ from linebot.models import (
 from app import db
 from models import LineUser, ChatMessage
 from routes.utils.config_service import ConfigManager
-from llm_service import LLMService
+from services.llm_service import LLMService
 from rag_service import RAGService
 
 webhook_bp = Blueprint('webhook', __name__)
